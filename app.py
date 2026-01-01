@@ -46,11 +46,23 @@ def analyze_resume(resume_text, job_description=None):
     if not resume_text:
         return {"error": "Resume text is required for analysis."}
     
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("models/gemini-1.5-flash-latest")
+
     
     base_prompt = f"""
-    You are an experienced HR with Technical Experience in the field of any one job role from Data Science, Data Analyst, DevOPS, Machine Learning Engineer, Prompt Engineer, AI Engineer, Full Stack Web Development, Big Data Engineering, Marketing Analyst, Human Resource Manager, Software Developer your task is to review the provided resume.
-    Please share your professional evaluation on whether the candidate's profile aligns with the role.ALso mention Skills he already have and siggest some skills to imorve his resume , alos suggest some course he might take to improve the skills.Highlight the strengths and weaknesses.
+   You are an expert HR professional and technical recruiter. Your job is to:
+1. Review the provided resume and optional job description.
+2. Identify:
+   • Skills the candidate already possesses.
+   • Key weaknesses and gaps relative to the role.
+   • Strengths to highlight.
+   • Recommended skills to develop.
+   • Suggested courses or learning resources.
+3. **Based on these findings**, produce a **revised resume** that:
+   • Reorders and rephrases bullet points to emphasize strengths.
+   • Adds a “Skills to Develop” or “Professional Development” section with courses.
+   • Addresses the identified weaknesses in the wording and structure.
+4. **Render the revised resume as a PDF**, returning it in a way the user can download (e.g. a Base64‑encoded attachment or a downloadable link).
 
     Resume:
     {resume_text}
